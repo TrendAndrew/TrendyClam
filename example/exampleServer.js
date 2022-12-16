@@ -7,7 +7,12 @@ const dataHandler = async (session, chunk) => {
 
 const endHandler = async (session) => {
     console.log('end');
-    session.respond('{\r\n}\r\n');
+    const result = {
+        name: 'upload.name',
+        is_infected: 'result.isInfected',
+        viruses: 'result.viruses'
+    }
+    session.respond(JSON.stringify(result, null, 2));
 };
 
 const server = musselAV.newServer({
