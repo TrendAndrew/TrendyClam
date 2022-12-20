@@ -7,10 +7,27 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@anamico/musselav": "^1.0.4",
     "temp": "^0.9.4"
-  }
+  },
+  "keywords": [
+    "clamAV",
+    "antivirus",
+    "virus",
+    "clamscan",
+    "upload",
+    "virus scanning",
+    "trend micro",
+    "clam",
+    "clamd",
+    "security"
+  ],
+  "author": "Andrew Longhorn <manager@imagineit.com.au> (https://www.imagineit.com.au/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TrendAndrew/TrendyClam/issues"
+  },
+  "homepage": "https://github.com/TrendAndrew/TrendyClam"
+  
 }
