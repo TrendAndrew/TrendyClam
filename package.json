@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@anamico/musselav": "^1.0.2",
+    "@anamico/musselav": "^1.0.4",
     "temp": "^0.9.4"
   }
 }
