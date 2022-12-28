@@ -13,19 +13,19 @@ temp.track();
 
 var sessions = {};
 
-const dataHandler = async (session, chunk) => {
-
-    console.log('dataHandler: ', session, chunk.toString());
-    
+const dataHandler = async (session, chunk) => {    
     const stream = sessions[session] || temp.createWriteStream();
+
+    console.log(`dataHandler: (${stream.path})`, chunk);
+
     stream.write(chunk);
     sessions[session] = stream;
 };
 
 const endHandler = async (session) => {
-    console.log('input end');
-    const stream = sessions[session] || temp.createWriteStream();
+    const stream = sessions[session];
     const path = stream.path;
+    console.log('input end, written to', path);
     stream.end();
  
      // create an iCap session, send the file and get the response
@@ -50,12 +50,14 @@ const endHandler = async (session) => {
     
     const readStream = fs.createReadStream(path, { encoding: "binary" });
 
-    readStream.on("data", (chunk) => {
-      sendData(chunk);
+    readStream.on("data", async (chunk) => {
+        console.log(`send data to iCap (${path})`, chunk);
+        await sendData(chunk);
     });
 
-    readStream.on("end", () => {
-        sendData(null);
+    readStream.on("end", async () => {
+        console.log(`send null to iCap (${path})`);
+        await sendData(null);
     });
 };
 

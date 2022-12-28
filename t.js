@@ -13,7 +13,8 @@ icap.connect({
     sendHeader({
        "Content-Length" : 67
     });
-    //sendData("blah blah blah");
+//    sendData("blah blah blah"); //14
+// 67
     sendData("X5O!P%@AP[4\PZX54(P^)7CC)7}$");
     sendData("EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*");
     sendData(null);
