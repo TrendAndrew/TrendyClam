@@ -7,7 +7,9 @@
 
 TrendClam is a swap out replacement for ClamAv that utilises Trend Micro capabilities for more advanced enterprise level AV scanning.
 
-It's been designed to essentially replace an existing ClamAV server (meaning you can completely remove it) and drop this on to the same server. By simply configuring the service to point to an appropriate Trend Micro product (via iCAP submission to SWG or similar) you can make use of your Trend Micro advanced AV and XDR capabilities and simplify your environment by removing a point product.
+It's been designed to essentially replace an existing ClamAV server (meaning you can completely remove it) and drop this in it's place. By simply configuring the service to point to an appropriate Trend Micro product (via iCAP submission to SWG, ServerProtect, DDAN or similar) you can make use of your Trend Micro advanced AV and XDR capabilities and simplify your environment by removing a single point product.
+
+TrendyClam is built using the <a href="https://www.npmjs.com/package/@anamico/musselav" target="musselav">@anamico/musselav</a> library to emulate a ClamAV tcp service. 
 
 ## Installation
 

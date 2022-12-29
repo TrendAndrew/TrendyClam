@@ -8,7 +8,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "@anamico/musselav": "^1.0.5",
+    "@anamico/musselav": "^1.0.6",
     "temp": "^0.9.4"
   },
   "keywords": [

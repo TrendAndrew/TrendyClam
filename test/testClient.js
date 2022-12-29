@@ -10,7 +10,7 @@ const runTest = async () => {
     // don't want it to delete the file before we can run the test)
     const tempFile = temp.createWriteStream();
     const path = tempFile.path;
-    await tempFile.write("X5O!P%@AP[4\PZX54(P^)7CC)7}$" + "EICAR-STA NDARD-ANTIVIRUS-TEST-FILE!$H+H*");
+    await tempFile.write("X5O!P%@AP[4\PZX54(P^)7CC)7}$" + "EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*");
     await tempFile.end();
 
     scanner.scanFile(path, 3000, 1024 * 1024)
