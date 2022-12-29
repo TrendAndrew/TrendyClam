@@ -7,14 +7,9 @@ const VERSION = '1.0';
 const USER_AGENT = 'Javascript-ICAP-Client/1.1';
 const END_LINE_DELIMITER = '\r\n';
 
-const REGEXP_CODE = new RegExp('^.*ICAP\/1.0 (.*) OK$', 'gm');
-const REGEXP_FOUND = new RegExp('^X-Infection-Found: Type=0; Resolution=2; Threat=(.*);$', 'gm');
-const REGEXP_COUNT = new RegExp('^X-Violations-Found: (.*)$', 'gm');
-const REGEXP_VIRUS_ID = new RegExp('^X-Virus-ID: (.*)$', 'gm');
-
 function extractField(regexp, iCalContent) {
     var arr = regexp.exec(iCalContent);
-    console.log(regexp, arr);
+    //console.log(regexp, arr);
     return arr && arr[1]; 
   }
 
@@ -23,6 +18,12 @@ const connect = ({ host, port, responseHandler }) => {
         const client = new net.Socket();
 
         const state = 'new';
+
+        // stateful, so defined for each connection
+        const REGEXP_CODE = new RegExp('^.*ICAP\/1.0 (.*)$', 'gm');
+        const REGEXP_FOUND = new RegExp('^X-Infection-Found: Type=0; Resolution=2; Threat=(.*);$', 'gm');
+        const REGEXP_COUNT = new RegExp('^X-Violations-Found: (.*)$', 'gm');
+        const REGEXP_VIRUS_ID = new RegExp('^X-Virus-ID: (.*)$', 'gm');
 
         client.connect(port, host, function() {
             console.log('iCap connected');
@@ -98,7 +99,8 @@ const connect = ({ host, port, responseHandler }) => {
         client.on('data', function(binaryData) {
             const data = binaryData.toString();
 
-            console.log('iCap received:\n', data);
+            console.log('iCap received:\n', binaryData);
+
             const response = {
                 code: extractField(REGEXP_CODE, data),
                 Infection_Found: extractField(REGEXP_FOUND, data),

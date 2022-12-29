@@ -11,35 +11,38 @@ var temp = require('temp');
 // stage the file on local disk and can't just pass it through... Grrr....
 temp.track();
 
-var sessions = {};
+var streams = {};
 
 const dataHandler = async (session, chunk) => {    
-    const stream = sessions[session] || temp.createWriteStream();
+    const firstChunk = !streams[session.id];
+    const stream = streams[session.id] || temp.createWriteStream();
+    streams[session.id] = stream;
 
-    console.log(`dataHandler: (${stream.path})`, chunk);
+    // todo: strip the INSTREAM header (do this better)
+    if (firstChunk && (chunk.toString() === 'zINSTREAM\0')) { return; }
 
+    console.log(`dataHandler: (${session.id} : ${stream.path})`, chunk);
     stream.write(chunk);
-    sessions[session] = stream;
 };
 
 const endHandler = async (session) => {
-    const stream = sessions[session];
+    const stream = streams[session.id];
+    if (!stream) { return; }
     const path = stream.path;
-    console.log('input end, written to', path);
+    console.log('input end', session.id, ':', 'written to', path);
     stream.end();
+    delete streams[session.id];
  
      // create an iCap session, send the file and get the response
     const {sendHeader, sendData} = await iCapClient.connect({
-        host : config.host || '127.0.0.1',
-        port : config.port || 3310,
-        responseHandler: async (icapResult) => {
+        host : config.iCapHost || '127.0.0.1',
+        port : config.iCapPort || 1344,
+        responseHandler: async (client, icapResult) => {
+            if (!icapResult) { return; }
             console.log('iCap result:', icapResult);
             // respond to the calling process
-            const result = {
-                is_infected: 'result.isInfected',
-                viruses: 'result.viruses'
-            }
-            session.respond(result);
+            const result = !icapResult.Virus_ID ? "OK" : `${icapResult.Virus_ID} FOUND`;
+            await session.respond(result);
         }
     });
 
@@ -51,7 +54,7 @@ const endHandler = async (session) => {
     const readStream = fs.createReadStream(path, { encoding: "binary" });
 
     readStream.on("data", async (chunk) => {
-        console.log(`send data to iCap (${path})`, chunk);
+        console.log(`send data to iCap (${path}): ${chunk.length} bytes`);
         await sendData(chunk);
     });
 

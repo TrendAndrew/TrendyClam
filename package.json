@@ -8,7 +8,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "@anamico/musselav": "^1.0.4",
+    "@anamico/musselav": "^1.0.5",
     "temp": "^0.9.4"
   },
   "keywords": [
@@ -28,6 +28,8 @@
   "bugs": {
     "url": "https://github.com/TrendAndrew/TrendyClam/issues"
   },
-  "homepage": "https://github.com/TrendAndrew/TrendyClam"
-  
+  "homepage": "https://github.com/TrendAndrew/TrendyClam",
+  "devDependencies": {
+    "clamdjs": "^1.0.2"
+  }
 }
