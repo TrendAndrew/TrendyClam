@@ -74,7 +74,7 @@ npm install pm2 -g
 
 then, make sure you are inside the project directory you cloned in step one and issue:
 ```bash
-pm2 start server.js`
+pm2 start server.js
 ```
 
 Check out the documentation for pm2 to set the service account or other configurations.
